@@ -147,7 +147,7 @@ textarea{
 <script>
 // 🔑 Initialize EmailJS with your public key
 (function(){
-   emailjs.init("YOUR_PUBLIC_KEY"); // ← REPLACE WITH YOUR PUBLIC KEY
+   emailjs.init("YOUR_PUBLIC_KEY_HERE"); // ← REPLACE this with your EmailJS public key
 })();
 
 const noBtn=document.getElementById("noBtn");
@@ -198,10 +198,9 @@ function submitMessage(){
 
     if(input.trim()!==""){
         const templateParams = {
-            mahiwagangmensahe: input  // ← matches {{mahiwagangmensahe}} in your EmailJS template
+            mahiwagangmensahe: input  // ← must match your template variable
         };
 
-        // Send message directly with your IDs
         emailjs.send(
             "service_vi9ffxq",    // ✅ Your Service ID
             "template_xzyvp0c",   // ✅ Your Template ID
@@ -210,8 +209,10 @@ function submitMessage(){
             display.innerHTML="💌 Message sent to my Gmail 💖";
         }, function(error){
             display.innerHTML="❌ Failed to send!";
-            console.error(error);
+            console.error("EmailJS Error:", error);
         });
+    } else {
+        display.innerHTML="❌ Please type a message!";
     }
 }
 
