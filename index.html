@@ -137,7 +137,7 @@ textarea{
     </div>
 
     <textarea id="loveInput" placeholder="Leave a sweet message... 💌"></textarea><br>
-    <button class="submit-btn" onclick="submitMessage()">Send 💖</button>
+    <button class="submit-btn" id="sendBtn">Send 💖</button>
     <div class="love-message" id="displayMessage"></div>
 </div>
 
@@ -145,12 +145,13 @@ textarea{
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script>
-// Initialize EmailJS with your public key
+// Initialize EmailJS with your PUBLIC key
 emailjs.init("Jsq8y9n9irXxy36f"); // ✅ Your public key
 
 const noBtn=document.getElementById("noBtn");
 const yesBtn=document.getElementById("yesBtn");
 const bouquetScene=document.getElementById("bouquetScene");
+const sendBtn=document.getElementById("sendBtn");
 
 function moveNo(){
     const container=document.querySelector(".buttons");
@@ -190,29 +191,31 @@ yesBtn.addEventListener("click", function() {
 });
 
 /* 💌 SEND MESSAGE TO EMAILJS */
-function submitMessage(){
+sendBtn.addEventListener("click", function(){
     const input=document.getElementById("loveInput").value;
     const display=document.getElementById("displayMessage");
 
-    if(input.trim()!==""){
-        const templateParams = {
-            mahiwagangmensahe: input  // ← must match your template variable
-        };
-
-        emailjs.send(
-            "service_vi9ffxq",    // ✅ Service ID
-            "template_xzyvp0c",   // ✅ Template ID
-            templateParams
-        ).then(function(response){
-            display.innerHTML="💌 Message sent to Gmail 💖";
-        }, function(error){
-            display.innerHTML="❌ Failed to send!";
-            console.error("EmailJS Error:", error);
-        });
-    } else {
+    if(input.trim()===""){
         display.innerHTML="❌ Please type a message!";
+        return;
     }
-}
+
+    sendBtn.disabled = true; // disable to prevent multiple clicks
+    display.innerHTML="📨 Sending...";
+
+    const templateParams = { mahiwagangmensahe: input };
+
+    emailjs.send("service_vi9ffxq", "template_xzyvp0c", templateParams)
+    .then(function(response){
+        display.innerHTML="💌 Message sent! 💖";
+        sendBtn.disabled = false;
+        document.getElementById("loveInput").value = "";
+    }, function(error){
+        display.innerHTML="❌ Failed to send!";
+        console.error("EmailJS Error:", error);
+        sendBtn.disabled = false;
+    });
+});
 
 /* Floating hearts */
 function createHeart(){
@@ -256,10 +259,8 @@ function startHeartRainStaggered(){
             document.body.appendChild(heart);
 
             const duration = 5000;
-            heart.animate([
-                { transform: `translateY(0px)` },
-                { transform: `translateY(100vh)` }
-            ], { duration: duration, iterations:1, easing: "ease-out" });
+            heart.animate([{ transform: `translateY(0px)` }, { transform: `translateY(100vh)` }],
+            { duration: duration, iterations:1, easing: "ease-out" });
 
             setTimeout(()=>heart.remove(), duration);
         }, i*200);
