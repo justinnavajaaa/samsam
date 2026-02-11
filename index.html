@@ -145,10 +145,8 @@ textarea{
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script>
-// 🔑 Initialize EmailJS with your public key
-(function(){
-   emailjs.init("YOUR_PUBLIC_KEY_HERE"); // ← REPLACE this with your EmailJS public key
-})();
+// Initialize EmailJS with your public key
+emailjs.init("Jsq8y9n9irXxy36f"); // ✅ Your public key
 
 const noBtn=document.getElementById("noBtn");
 const yesBtn=document.getElementById("yesBtn");
@@ -202,11 +200,11 @@ function submitMessage(){
         };
 
         emailjs.send(
-            "service_vi9ffxq",    // ✅ Your Service ID
-            "template_xzyvp0c",   // ✅ Your Template ID
+            "service_vi9ffxq",    // ✅ Service ID
+            "template_xzyvp0c",   // ✅ Template ID
             templateParams
         ).then(function(response){
-            display.innerHTML="💌 Message sent to my Gmail 💖";
+            display.innerHTML="💌 Message sent to Gmail 💖";
         }, function(error){
             display.innerHTML="❌ Failed to send!";
             console.error("EmailJS Error:", error);
