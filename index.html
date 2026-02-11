@@ -197,15 +197,14 @@ function submitMessage(){
     const display=document.getElementById("displayMessage");
 
     if(input.trim()!==""){
-        // Prepare template params matching your EmailJS template
         const templateParams = {
-            mahiwagangmensahe: input  // ← matches {{mahiwagangmensahe}} in your template
+            mahiwagangmensahe: input  // ← matches {{mahiwagangmensahe}} in your EmailJS template
         };
 
-        // Send via EmailJS
+        // Send message directly with your IDs
         emailjs.send(
-            "service_vi9ffxq",      // ← Your Service ID
-            "YOUR_TEMPLATE_ID",     // ← REPLACE WITH YOUR TEMPLATE ID
+            "service_vi9ffxq",    // ✅ Your Service ID
+            "template_xzyvp0c",   // ✅ Your Template ID
             templateParams
         ).then(function(response){
             display.innerHTML="💌 Message sent to my Gmail 💖";
